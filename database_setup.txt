@@ -1,3 +1,11 @@
+ipAddress = "localhost";
+dbServerPort = "5432";
+dbName = "simpleehotels";
+dbUsername = "postgres";
+dbPassword = "postgres";
+
+
+
 -- create table hotel_chain(
 -- 	address VARCHAR(255) PRIMARY KEY,
 -- 	email VARCHAR(255) NOT NULL,

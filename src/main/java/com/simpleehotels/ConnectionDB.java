@@ -10,7 +10,7 @@ public class ConnectionDB {
     private static final String dbServerPort = "5432";
     private static final String dbName = "simpleehotels";
     private static final String dbUsername = "postgres";
-    private static final String dbPassword = "password";
+    private static final String dbPassword = "postgres";
 
     private Connection con = null;
 
@@ -28,7 +28,7 @@ public class ConnectionDB {
             throw new Exception("Could not establish connection with the database server: " + e.getMessage());
         }
     }
-    
+
     /*  
      * This method is used to close the connection with the database server.
      * @throws SQLException
