@@ -1,5 +1,6 @@
-<%@ page import="com.demo.RoomService" %>
-<%@ page import="com.demo.Room" %>
+<%@ page import="com.simpleehotels.RoomService" %>
+<%@ page import="com.simpleehotels.Room" %>
+<%@ page import="com.simpleehotels.Message" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 
@@ -31,32 +32,34 @@
 
 <html>
 <body>
-    <% if (grades.size() == 0) { %>
+    <% if (rooms.size() == 0) { %>
         <h1 style="margin-top: 5rem;">No Grades found!</h1>
     <% } else { %>
         <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Course Name</th>
-                    <th>Grade</th>
-                    <th>Student ID</th>
-                    <th></th>
+                    <th>Room Number</th>
+                    <th>Address</th>
+                    <th>Price</th>
+                    <th>Ammenities</th>
+                    <th>Capacity</th>
+                    <th>View Type</th>
+                    <th>Damages</th>
+                    <th>Extendible</th>
                 </tr>
             </thead>
             <tbody>
             <% for (Room room : rooms) { %>
                 <tr>
-                    <td><%= room.getId() %></td>
-                    <td><%= room.getName() %></td>
-                    <td><%= room.getCapacity() %></td>
-                    <td><%= room.getBuilding() %></td>
-                    <td><%= room.getFloor() %></td>
                     <td><%= room.getRoomNumber() %></td>
-                    <td><%= room.getRoomType() %></td>
-                    <td><%= room.getRoomStatus() %></td>
-                    <td><%= room.getRoomDescription() %></td>
+                    <td><%= room.getRoomAddress() %></td>
+                    <td><%= room.getRoomPrice() %></td>
+                    <td><%= room.getRoomAmmenities() %></td>
+                    <td><%= room.getRoomCapacity() %></td>
+                    <td><%= room.getRoomViewType() %></td>
+                    <td><%= room.getRoomDamages() %></td>
+                    <td><%= room.isRoomExtendible() %></td>
                 </tr>
             <% } %>    
             </tbody>

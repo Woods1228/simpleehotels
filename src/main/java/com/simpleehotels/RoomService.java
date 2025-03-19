@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 /*
  * This class is used to get rooms from the database.
@@ -15,30 +14,32 @@ public class RoomService {
      * @return List<Room>
      * @throws Exception
      */
-    public List<Room> getRooms() throws Exception {
+    public ArrayList<Room> getRooms() throws Exception {
         // SQL query to get all rooms
-        String query = "SELECT * FROM room";
+        String query = "SELECT * FROM rooms";
         ConnectionDB db = new ConnectionDB();
         
         // List to store rooms
-        List<Room> rooms = new ArrayList<>();
+        ArrayList<Room> rooms = new ArrayList<>();
 
         // Get rooms from the database
         try (Connection con = db.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             // Add rooms to the list
+            System.out.println("Rooms:");
             while (rs.next()) {
                 Room room = new Room(
-                    rs.getInt("roomNumber"),
+                    rs.getInt("room_num"),
                     rs.getString("address"),
                     rs.getFloat("price"),
-                    rs.getString("ammenities"),
+                    rs.getString("amenities"),
                     rs.getString("capacity"),
-                    rs.getString("viewType"),
+                    rs.getString("view_type"),
                     rs.getString("damages"),
                     rs.getBoolean("extendible")
                 );
+                System.out.println(room.getRoomNumber());
                 rooms.add(room);
             }
             // Close the connection

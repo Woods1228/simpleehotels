@@ -29,49 +29,49 @@ public class Room {
     }
 
     // Get address
-    public String getAddress() {
+    public String getRoomAddress() {
         return address;
     }
 
     // Get price and set price
-    public float getPrice() {
+    public float getRoomPrice() {
         return price;
     }
-    public void setPrice(float price) {
+    public void setRoomPrice(float price) {
         this.price = price;
     }
 
     // Get ammenities and set ammenities
-    public String getAmmenities() {
+    public String getRoomAmmenities() {
         return ammenities;
     }
-    public void setAmmenities(String ammenities) {
+    public void setRoomAmmenities(String ammenities) {
         this.ammenities = ammenities;
     }
 
     // Get capacity and set capacity
-    public String getCapacity() {
+    public String getRoomCapacity() {
         return capacity;
     }
-    public void setCapacity(String capacity) {
+    public void setRoomCapacity(String capacity) {
         this.capacity = capacity;
     }
 
     // Get view type
-    public String getViewType() {
+    public String getRoomViewType() {
         return viewType;
     }
     
     // Get damages and set damages
-    public String getDamages() {
+    public String getRoomDamages() {
         return damages;
     }
-    public void setDamages(String damages) {
+    public void setRoomDamages(String damages) {
         this.damages = damages;
     }
 
     // Get extendible
-    public boolean isExtendible() {
+    public boolean isRoomExtendible() {
         return extendible;
     }
 }

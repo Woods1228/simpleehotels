@@ -1,3 +1,4 @@
+com\simpleehotels\RoomService.class
 com\simpleehotels\Room.class
 com\simpleehotels\ConnectionDB.class
-com\simpleehotels\RoomService.class
+com\simpleehotels\Message.class
