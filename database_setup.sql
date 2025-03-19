@@ -4,7 +4,13 @@
 --dbUsername = "postgres";
 --dbPassword = "postgres";
 
-
+--	CREATE TABLE phone_num(
+-- 	phone_num VARCHAR(10),
+-- 	address VARCHAR(255),
+-- 	PRIMARY KEY(phone_num,address),
+-- 	FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE,
+--     FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
+-- );
 
 -- create table hotel_chain(
 -- 	address VARCHAR(255) PRIMARY KEY,
