@@ -303,7 +303,7 @@ INSERT INTO hotel (address, num_of_rooms, email, stars, chain_address) VALUES
 ('505 Marina Blvd, San Francisco, CA', 50, 'marina@sunsetresorts.com', 4, '950 Bayfront Rd, San Francisco, CA'),
 ('333 Fisherman’s Wharf, San Francisco, CA', 75, 'wharf@sunsetresorts.com', 5, '950 Bayfront Rd, San Francisco, CA'),
 ('88 Twin Peaks Rd, San Francisco, CA', 70, 'twinpeaks@sunsetresorts.com', 4, '950 Bayfront Rd, San Francisco, CA'),
-('999 Lombard St, San Francisco, CA', 55, 'lombard@sunsetresorts.com', 5, '950 Bayfront Rd, San Francisco, CA');
+('999 Lombard St, San Francisco, CA', 55, 'lombard@sunsetresorts.com', 5, '950 Bayfront Rd, San Francisco, CA'),
 ('222 Pier 39, San Francisco, CA', 80, 'pier39@sunsetresorts.com', 5, '950 Bayfront Rd, San Francisco, CA'),
 ('777 Nob Hill Rd, San Francisco, CA', 65, 'nobhill@sunsetresorts.com', 4, '950 Bayfront Rd, San Francisco, CA'),
 ('420 Ocean Beach Ave, San Francisco, CA', 50, 'oceanbeach@sunsetresorts.com', 4, '950 Bayfront Rd, San Francisco, CA'),
