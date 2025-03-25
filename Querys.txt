@@ -1,0 +1,18 @@
+SELECT *
+FROM rooms 
+WHERE (address, price) IN (
+    SELECT address, MIN(price) 
+    FROM rooms
+    GROUP BY address
+)
+Order by price;
+Min price room for every hotel
+
+Select *
+From rooms
+Where (address, room_num)in(
+	SELECT address, room_num
+	From renting
+	Where current_date>= start_date and end_date>= current_date
+);
+Gets the rooms that are currently booked
