@@ -1,0 +1,20 @@
+
+
+
+
+
+view 2
+CREATE VIEW HotelRoomCapacity AS
+SELECT h.address AS hotel_address, SUM(
+	CASE
+		WHEN r.capacity = 'single' THEN 1
+		WHEN r.capacity = 'double' THEN 2
+		WHEN r.capacity = 'queen' THEN 2
+		WHEN r.capacity = 'double queen' THEN 4
+		WHEN r.capacity = 'suite' THEN 4
+		ELSE 0
+	END
+) AS total_capacity
+FROM hotel h
+JOIN rooms r ON h.address = r.address
+GROUP BY h.address;
