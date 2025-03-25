@@ -4,19 +4,7 @@
 --dbUsername = "postgres";
 --dbPassword = "postgres";
 
-CREATE TABLE hotel_phone_num (
-    phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
-    address VARCHAR(255) NOT NULL,
-    PRIMARY KEY (phone_num, address), 
-    FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
-);
 
-CREATE TABLE hotel_chain_phone_num (
-	phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
-    address VARCHAR(255) NOT NULL,
-    PRIMARY KEY (phone_num, address), 
-    FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
-);
 
 CREATE TABLE hotel_chain(
     address VARCHAR(255) PRIMARY KEY,
@@ -32,6 +20,19 @@ CREATE TABLE hotel(
     chain_address VARCHAR(255) NOT NULL,
     FOREIGN KEY (chain_address) REFERENCES hotel_chain(address) ON DELETE CASCADE
 );
+
+CREATE TABLE rooms (
+	room_num INT CHECK(room_num>0),
+	address VARCHAR(255),
+ 	price DECIMAL(10,2) NOT NULL,
+	amenities VARCHAR(100) NOT NULL,
+ 	capacity VARCHAR(12) CHECK(capacity IN ('single', 'double', 'queen', 'double queen', 'suite')) NOT NULL,
+ 	view_type VARCHAR(8) CHECK(view_type IN ('sea', 'mountain')) NOT NULL,
+ 	damages VARCHAR(255),
+ 	extendible BOOLEAN,
+ 	PRIMARY KEY(room_num, address),
+ 	FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
+ );
 
 CREATE TABLE employee (
  	ssn CHAR(9) PRIMARY KEY,
@@ -124,18 +125,20 @@ CREATE TABLE creates(
  	PRIMARY KEY(employee_ssn,renting_ID,customer_ssn)
 );
 
-CREATE TABLE rooms (
-	room_num INT CHECK(room_num>0),
-	address VARCHAR(255),
- 	price DECIMAL(10,2) NOT NULL,
-	amenities VARCHAR(100) NOT NULL,
- 	capacity VARCHAR(12) CHECK(capacity IN ('single', 'double', 'queen', 'double queen', 'suite')) NOT NULL,
- 	view_type VARCHAR(8) CHECK(view_type IN ('sea', 'mountain')) NOT NULL,
- 	damages VARCHAR(255),
- 	extendible BOOLEAN,
- 	PRIMARY KEY(room_num, address),
- 	FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
- );
+
+ CREATE TABLE hotel_phone_num (
+    phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
+    address VARCHAR(255) NOT NULL,
+    PRIMARY KEY (phone_num, address), 
+    FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
+);
+
+CREATE TABLE hotel_chain_phone_num (
+	phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
+    address VARCHAR(255) NOT NULL,
+    PRIMARY KEY (phone_num, address), 
+    FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
+);
 
 
 
