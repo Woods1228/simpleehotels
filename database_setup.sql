@@ -4,233 +4,111 @@
 --dbUsername = "postgres";
 --dbPassword = "postgres";
 
---	CREATE TABLE phone_num(
--- 	phone_num VARCHAR(10),
--- 	address VARCHAR(255),
--- 	PRIMARY KEY(phone_num,address),
--- 	FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE,
---     FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
--- );
-
--- create table hotel_chain(
--- 	address VARCHAR(255) PRIMARY KEY,
--- 	email VARCHAR(255) NOT NULL,
--- 	num_of_hotels INT NOT NULL
--- );
-
--- CHECK
--- create table hotel(
--- 	address VARCHAR(255) PRIMARY KEY,
--- 	num_of_rooms INT NOT NULL CHECK (num_of_rooms > 0),
--- 	email VARCHAR(50),
--- 	stars INT CHECK (stars BETWEEN 1 AND 5),
--- 	chain_address VARCHAR(255),
--- 	FOREIGN KEY (chain_address) REFERENCES hotel_chain(address) ON DELETE CASCADE
--- );
-
--- Select * from hotel;
-
--- CREATE TABLE employee (
--- 	ssn CHAR(9) PRIMARY KEY,
--- 	name VARCHAR(100) NOT NULL,
--- 	address VARCHAR(255),
--- 	hotel_address VARCHAR(255),
--- 	FOREIGN KEY (hotel_address) REFERENCES hotel(address)
-
--- );
-
--- Select * from employee;
-
--- CREATE TABLE manager (
--- 	ssn CHAR(9) PRIMARY KEY,
--- 	name VARCHAR(100) NOT NULL,
--- 	address VARCHAR(255),
--- 	hotel_address VARCHAR(255),
--- 	FOREIGN KEY (hotel_address) REFERENCES hotel(address),
--- 	FOREIGN KEY (ssn) REFERENCES employee(ssn)
--- );
 
 
--- CREATE TABLE rooms (
--- 	room_num INT CHECK(room_num>0),
--- 	address VARCHAR(255),
--- 	price DECIMAL(10,2),
--- 	amenities VARCHAR(100),
--- 	capacity VARCHAR(12) CHECK(capacity IN ('single', 'double', 'queen', 'double queen', 'suite')),
--- 	view_type VARCHAR(8) CHECK(view_type IN ('sea', 'mountain')),
--- 	damages VARCHAR(255),
--- 	extendible BOOLEAN,
--- 	PRIMARY KEY(room_num, address),
--- 	FOREIGN KEY (address) REFERENCES hotel(address)
--- );
+CREATE TABLE hotel_chain(
+    address VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    num_of_hotels INT NOT NULL
+);
 
+CREATE TABLE hotel(
+    address VARCHAR(255) PRIMARY KEY,
+    num_of_rooms INT NOT NULL CHECK (num_of_rooms > 0),
+    email VARCHAR(50) NOT NULL,
+    stars INT CHECK (stars BETWEEN 1 AND 5) NOT NULL,
+    chain_address VARCHAR(255) NOT NULL,
+    FOREIGN KEY (chain_address) REFERENCES hotel_chain(address) ON DELETE CASCADE
+);
 
-
-
--- CREATE TABLE customer (
--- 	ssn CHAR(9) PRIMARY KEY,
--- 	name VARCHAR(100) NOT NULL,
--- 	address VARCHAR(255),
--- 	registration_date DATE CHECK (registration_date<=current_date)
-
--- );
-
-
--- CREATE TABLE renting(
--- 	renting_ID VARCHAR(10) CHECK (renting_ID ~ '^r\d{9}$') PRIMARY KEY,
--- 	start_date DATE CHECK (start_date<=current_date),
--- 	end_date DATE CHECK(end_date > start_date),
--- 	price DECIMAL(10,2),
--- 	customer_ssn CHAR(9),
--- 	room_num INT CHECK(room_num>0),
--- 	address VARCHAR(255),
-	
--- 	FOREIGN KEY (room_num, address) REFERENCES rooms(room_num, address), --made address here because it is composite primary key in rooms relation
--- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
-	
--- 	);
-
--- CREATE TABLE booking(
--- 	booking_ID VARCHAR(10) CHECK (booking_ID ~ '^b\d{9}$') PRIMARY KEY,
--- 	start_date DATE CHECK (start_date<=current_date),
--- 	end_date DATE CHECK(end_date > start_date),
--- 	price DECIMAL(10,2),
--- 	customer_ssn CHAR(9),
--- 	room_num INT CHECK(room_num>0),
--- 	address VARCHAR(255),
-	
--- 	FOREIGN KEY (room_num, address) REFERENCES rooms(room_num, address), --made address here because it is composite primary key in rooms relation
--- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
-	
--- 	);
-
--- CREATE TABLE makes(
--- 	ssn CHAR(9),
--- 	booking_ID VARCHAR(10),
--- 	PRIMARY KEY(ssn,booking_ID),
--- 	FOREIGN KEY (ssn) REFERENCES customer(ssn), --If customer deleted booking also deleted --> do we need that
--- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID) --If booking deleted relationship also deleted --> do we need that
--- );
-
--- CREATE TABLE archives(
--- 	archive_ID VARCHAR(9) CHECK (archive_ID ~ '^[br]\d{9}$') PRIMARY KEY,
--- 	start_time TIME CHECK (start_time<=current_time),
--- 	end_time TIME CHECK(end_time > start_time),
--- 	price DECIMAL(10,2),
--- 	customer_SSN VARCHAR(9),
--- 	archive_type VARCHAR(7) CHECK(archive_type IN ('renting', 'booking')),
--- 	renting_ID VARCHAR(10), --didn't add conditions
--- 	booking_ID VARCHAR(10),
--- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
--- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
--- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
--- 	);
-
--- CREATE TABLE transforms_br(
--- 	employee_ssn CHAR(9),
--- 	renting_ID VARCHAR(10),
--- 	booking_ID VARCHAR(10),
--- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
--- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
--- 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn),
--- 	PRIMARY KEY(employee_ssn,renting_ID,booking_ID)
--- 	);
-
--- CREATE TABLE creates(
--- 	employee_ssn CHAR(9),
--- 	customer_ssn VARCHAR(9),
--- 	renting_ID VARCHAR(10),
--- 	FOREIGN KEY(customer_ssn) REFERENCES customer(ssn),
--- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
--- 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn),
--- 	PRIMARY KEY(employee_ssn,renting_ID,customer_ssn)
--- 	);
-	
-
-
-
---//////////////////////NOT COMMENTED OUT///////////////////////////////
-
+CREATE TABLE rooms (
+	room_num INT CHECK(room_num>0),
+	address VARCHAR(255),
+ 	price DECIMAL(10,2) NOT NULL,
+	amenities VARCHAR(100) NOT NULL,
+ 	capacity VARCHAR(12) CHECK(capacity IN ('single', 'double', 'queen', 'double queen', 'suite')) NOT NULL,
+ 	view_type VARCHAR(8) CHECK(view_type IN ('sea', 'mountain')) NOT NULL,
+ 	damages VARCHAR(255),
+ 	extendible BOOLEAN,
+ 	PRIMARY KEY(room_num, address),
+ 	FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
+ );
 
 CREATE TABLE employee (
  	ssn CHAR(9) PRIMARY KEY,
  	name VARCHAR(100) NOT NULL,
- 	address VARCHAR(255),
- 	hotel_address VARCHAR(255),
- 	FOREIGN KEY (hotel_address) REFERENCES hotel(address)
+ 	address VARCHAR(255) NOT NULL,
+ 	hotel_address VARCHAR(255) ,
+ 	FOREIGN KEY (hotel_address) REFERENCES hotel(address) ON DELETE SET NULL
 );
 
 CREATE TABLE manager (
 	ssn CHAR(9) PRIMARY KEY,
  	name VARCHAR(100) NOT NULL,
- 	address VARCHAR(255),
+ 	address VARCHAR(255) NOT NULL,
  	hotel_address VARCHAR(255),
- 	FOREIGN KEY (hotel_address) REFERENCES hotel(address),
- 	FOREIGN KEY (ssn) REFERENCES employee(ssn)
+ 	FOREIGN KEY (hotel_address) REFERENCES hotel(address) ON DELETE SET NULL,
+ 	FOREIGN KEY (ssn) REFERENCES employee(ssn) ON DELETE CASCADE
 );
 
 CREATE TABLE customer (
  	ssn CHAR(9) PRIMARY KEY,
  	name VARCHAR(100) NOT NULL,
- 	address VARCHAR(255),
- 	registration_date DATE CHECK (registration_date<=current_date)
+ 	address VARCHAR(255) NOT NULL,
+ 	registration_date DATE CHECK (registration_date<=current_date) NOT NULL
 );
 
  CREATE TABLE renting(
  	renting_ID VARCHAR(10) CHECK (renting_ID ~ '^r\d{9}$') PRIMARY KEY,
- 	start_date DATE CHECK (start_date<=current_date),
- 	end_date DATE CHECK(end_date > start_date),
- 	price DECIMAL(10,2),
- 	customer_ssn CHAR(9),
- 	room_num INT CHECK(room_num>0),
- 	address VARCHAR(255),
-	
+ 	start_date DATE CHECK (start_date>=current_date) NOT NULL,
+ 	end_date DATE CHECK(end_date > start_date) NOT NULL,
+ 	price DECIMAL(10,2) NOT NULL,
+ 	customer_ssn CHAR(9) NOT NULL,
+ 	room_num INT CHECK(room_num>0) NOT NULL,
+ 	address VARCHAR(255) NOT NULL,
  	FOREIGN KEY (room_num, address) REFERENCES rooms(room_num, address), --made address here because it is composite primary key in rooms relation
  	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
  );
 
 CREATE TABLE booking(
  	booking_ID VARCHAR(10) CHECK (booking_ID ~ '^b\d{9}$') PRIMARY KEY,
- 	start_date DATE CHECK (start_date<=current_date),
+ 	start_date DATE CHECK (start_date>=current_date),
  	end_date DATE CHECK(end_date > start_date),
- 	price DECIMAL(10,2),
- 	customer_ssn CHAR(9),
- 	room_num INT CHECK(room_num>0),
- 	address VARCHAR(255),
+ 	price DECIMAL(10,2) NOT NULL,
+ 	customer_ssn CHAR(9) NOT NULL,
+ 	room_num INT CHECK(room_num>0) NOT NULL,
+ 	address VARCHAR(255) NOT NULL,
 	
- 	FOREIGN KEY (room_num, address) REFERENCES rooms(room_num, address), --made address here because it is composite primary key in rooms relation
- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
+ 	FOREIGN KEY (room_num, address) REFERENCES rooms(room_num, address) ON DELETE CASCADE, --made address here because it is composite primary key in rooms relation
+ 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn) ON DELETE CASCADE
 );
 
  CREATE TABLE makes(
  	ssn CHAR(9),
  	booking_ID VARCHAR(10),
  	PRIMARY KEY(ssn,booking_ID),
- 	FOREIGN KEY (ssn) REFERENCES customer(ssn), --If customer deleted booking also deleted --> do we need that
- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID) --If booking deleted relationship also deleted --> do we need that
+ 	FOREIGN KEY (ssn) REFERENCES customer(ssn) ON DELETE CASCADE, --If customer deleted booking also deleted --> do we need that
+ 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID) ON DELETE CASCADE --If booking deleted relationship also deleted --> do we need that
 );
 
 CREATE TABLE archives(
- 	archive_ID VARCHAR(9) CHECK (archive_ID ~ '^[br]\d{9}$') PRIMARY KEY,
- 	start_time TIME CHECK (start_time<=current_time),
- 	end_time TIME CHECK(end_time > start_time),
- 	price DECIMAL(10,2),
- 	customer_SSN VARCHAR(9),
- 	archive_type VARCHAR(7) CHECK(archive_type IN ('renting', 'booking')),
- 	renting_ID VARCHAR(10), --didn't add conditions
- 	booking_ID VARCHAR(10),
- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
+ 	archive_ID VARCHAR(10) CHECK (archive_ID ~ '^[br]\d{9}$') PRIMARY KEY,
+ 	start_time DATE  NOT NULL,
+ 	end_time DATE  NOT NULL,
+ 	price DECIMAL(10,2) NOT NULL,
+ 	customer_SSN VARCHAR(9) NOT NULL,
+ 	archive_type VARCHAR(7) CHECK(archive_type IN ('renting', 'booking')) NOT NULL,
+ 	renting_ID VARCHAR(10) CHECK (renting_ID ~ '^[br]\d{9}$'), 
+ 	booking_ID VARCHAR(10) CHECK (booking_ID ~ '^[br]\d{9}$')
 );
 
 CREATE TABLE transforms_br(
  	employee_ssn CHAR(9),
  	renting_ID VARCHAR(10),
  	booking_ID VARCHAR(10),
- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
- 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn),
+ 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID) ON DELETE CASCADE, --If customer deleted booking also deleted --> do we need that
+ 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID) ON DELETE CASCADE,
+ 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn) ON DELETE CASCADE,
  	PRIMARY KEY(employee_ssn,renting_ID,booking_ID)
 );
 
@@ -238,12 +116,26 @@ CREATE TABLE creates(
  	employee_ssn CHAR(9),
  	customer_ssn VARCHAR(9),
  	renting_ID VARCHAR(10),
- 	FOREIGN KEY(customer_ssn) REFERENCES customer(ssn),
- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
- 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn),
+ 	FOREIGN KEY(customer_ssn) REFERENCES customer(ssn) ON DELETE CASCADE,
+ 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID) ON DELETE CASCADE, --If customer deleted booking also deleted --> do we need that
+ 	FOREIGN KEY (employee_ssn) REFERENCES employee(ssn) ON DELETE CASCADE,
  	PRIMARY KEY(employee_ssn,renting_ID,customer_ssn)
 );
 
+
+ CREATE TABLE hotel_phone_num (
+    phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
+    address VARCHAR(255) NOT NULL,
+    PRIMARY KEY (phone_num, address), 
+    FOREIGN KEY (address) REFERENCES hotel(address) ON DELETE CASCADE
+);
+
+CREATE TABLE hotel_chain_phone_num (
+	phone_num VARCHAR(15) NOT NULL CHECK (phone_num ~ '^\d{3}-\d{3}-\d{4}$'),
+    address VARCHAR(255) NOT NULL,
+    PRIMARY KEY (phone_num, address), 
+    FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
+);
 
 
 
