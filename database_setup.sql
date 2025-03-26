@@ -72,7 +72,7 @@ CREATE TABLE customer (
 
 CREATE TABLE booking(
  	booking_ID VARCHAR(10) CHECK (booking_ID ~ '^b\d{9}$') PRIMARY KEY,
- 	start_date DATE CHECK (start_date<=current_date),
+ 	start_date DATE CHECK (start_date>=current_date),
  	end_date DATE CHECK(end_date > start_date),
  	price DECIMAL(10,2) NOT NULL,
  	customer_ssn CHAR(9) NOT NULL,
@@ -92,17 +92,14 @@ CREATE TABLE booking(
 );
 
 CREATE TABLE archives(
- 	archive_ID VARCHAR(9) CHECK (archive_ID ~ '^[br]\d{9}$') PRIMARY KEY,
- 	start_time TIME CHECK (start_time<=current_time) NOT NULL,
- 	end_time TIME CHECK(end_time > start_time) NOT NULL,
+ 	archive_ID VARCHAR(10) CHECK (archive_ID ~ '^[br]\d{9}$') PRIMARY KEY,
+ 	start_time DATE  NOT NULL,
+ 	end_time DATE  NOT NULL,
  	price DECIMAL(10,2) NOT NULL,
  	customer_SSN VARCHAR(9) NOT NULL,
  	archive_type VARCHAR(7) CHECK(archive_type IN ('renting', 'booking')) NOT NULL,
- 	renting_ID VARCHAR(10), --didn't add conditions
- 	booking_ID VARCHAR(10),
- 	FOREIGN KEY (renting_ID) REFERENCES renting(renting_ID), --If customer deleted booking also deleted --> do we need that
- 	FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
- 	FOREIGN KEY (customer_ssn) REFERENCES customer(ssn)
+ 	renting_ID VARCHAR(10) CHECK (renting_ID ~ '^[br]\d{9}$'), 
+ 	booking_ID VARCHAR(10) CHECK (booking_ID ~ '^[br]\d{9}$')
 );
 
 CREATE TABLE transforms_br(
