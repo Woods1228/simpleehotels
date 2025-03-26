@@ -1,0 +1,53 @@
+Create Function unique_email()
+	returns trigger AS
+	$BODY$
+Begin
+if exists(
+	Select address
+	from hotel
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from hotel_chain
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from customer
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from employee
+	where address = NEW.address
+)
+Then 
+	RAISE EXCEPTION 'Address must be unique across all tables';
+End if;
+Return new;
+End
+$BODY$ Language plpgsql;
+
+
+Create Trigger check_email
+Before Update or Insert on customer
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on hotel
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on hotel_chain
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on employee
+For Each Row
+Execute Procedure unique_email();
+
+This trigger makes sure all adress are unique
