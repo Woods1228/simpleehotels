@@ -74,4 +74,18 @@ public class Room {
     public boolean isRoomExtendible() {
         return extendible;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomNumber=" + roomNumber +
+                ", address='" + address + '\'' +
+                ", price=" + price +
+                ", ammenities='" + ammenities + '\'' +
+                ", capacity='" + capacity + '\'' +
+                ", viewType='" + viewType + '\'' +
+                ", damages='" + damages + '\'' +
+                ", extendible=" + extendible +
+                '}';
+    }
 }
