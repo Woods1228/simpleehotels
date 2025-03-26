@@ -50,7 +50,7 @@ Before Update or Insert on employee
 For Each Row
 Execute Procedure unique_email();
 
-This trigger makes sure all adress are unique
+- This trigger makes sure all adress are unique
 
 CREATE OR REPLACE FUNCTION archive_booking()
 RETURNS TRIGGER AS
@@ -85,7 +85,7 @@ Before Delete on booking
 For Each Row
 Execute Procedure archive_booking();
 
-- This trigger makes it so once a booking is transformed into a rneting the booking will be deleted and archived
+- This trigger makes it so once a booking is transformed into a renting the booking will be deleted and archived
 
 
 CREATE OR REPLACE FUNCTION deleting_booking()
@@ -113,6 +113,9 @@ LANGUAGE plpgsql;
 
 
 Create Trigger deleting_booking
-Before insert on renting
+After insert on renting
 For Each Row
 Execute Procedure deleting_booking();
+
+
+-This trigger deletes a booking when it is transformed into a renting.
