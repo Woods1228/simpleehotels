@@ -24,7 +24,7 @@
     Message msg;
     // try to update a student
     try {
-        boolean value = roomService.bookRoom(room, ssn);
+        boolean value = roomService.bookRoom(room, ssn, startDate, endDate);
         // 
         if (value) msg = new Message("success", "Room successfully booked!");
         // 

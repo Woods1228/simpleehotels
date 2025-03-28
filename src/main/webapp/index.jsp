@@ -43,7 +43,7 @@
 <body>
     <div class="container">
         <button class="guest" onclick="window.location.href='room.jsp'">Guest</button>
-        <button class="employee">Employee</button>
+        <button class="employee" onclick="window.location.href='employee.jsp'">Employee</button>
     </div>
 </body>
 </html>

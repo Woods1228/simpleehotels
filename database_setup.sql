@@ -8,6 +8,7 @@
 
 CREATE TABLE hotel_chain(
     address VARCHAR(255) PRIMARY KEY,
+	name VARCHAR(100) NOT NULL Unique,
     email VARCHAR(255) NOT NULL,
     num_of_hotels INT NOT NULL
 );
@@ -137,16 +138,129 @@ CREATE TABLE hotel_chain_phone_num (
     FOREIGN KEY (address) REFERENCES hotel_chain(address) ON DELETE CASCADE
 );
 
+Create Function unique_email()
+	returns trigger AS
+	$BODY$
+Begin
+if exists(
+	Select address
+	from hotel
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from hotel_chain
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from customer
+	where address = NEW.address
+)
+or exists(
+	Select address
+	from employee
+	where address = NEW.address
+)
+Then 
+	RAISE EXCEPTION 'Address must be unique across all tables';
+End if;
+Return new;
+End
+$BODY$ Language plpgsql;
 
+
+Create Trigger check_email
+Before Update or Insert on customer
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on hotel
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on hotel_chain
+For Each Row
+Execute Procedure unique_email();
+
+Create Trigger check_email
+Before Update or Insert on employee
+For Each Row
+Execute Procedure unique_email();
+
+-- This trigger makes sure all adress are unique
+
+CREATE OR REPLACE FUNCTION archive_booking()
+RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    -- Insert the booking into the archives table
+    INSERT INTO archives(archive_ID, start_time, end_time, price, customer_ssn, archive_type, booking_ID)
+    VALUES (
+        NEW.booking_id,        -- Use the booking ID as the archive ID
+        NEW.start_date,        -- Start time of the booking
+        NEW.end_date,          -- End time of the booking
+        NEW.price,             -- Price of the booking
+        NEW.customer_ssn,      -- Customer SSN
+        'booking',             -- Archive type is 'booking'
+        NEW.booking_id         -- Booking ID
+    );
+
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+Create Trigger archive_booking
+After Insert on booking
+For Each Row
+Execute Procedure archive_booking();
+
+-- This trigger makes it so once a booking  is made an archive is created 
+
+
+CREATE OR REPLACE FUNCTION deleting_booking()
+RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF EXISTS (
+        SELECT room_num, address, start_date,end_date
+        FROM booking
+        WHERE room_num = NEW.room_num 
+          AND address = NEW.address 
+          AND start_date = NEW.start_date 
+          AND end_date = NEW.end_date
+    ) THEN   
+       delete from booking
+	   where room_num = NEW.room_num 
+          AND address = NEW.address 
+          AND start_date = NEW.start_date 
+          AND end_date = NEW.end_date;
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+Create Trigger deleting_booking
+After insert on renting
+For Each Row
+Execute Procedure deleting_booking();
+
+
+--This trigger deletes a booking when it is transformed into a renting.
 
 --////////////////////////////// INPUTS ///////////////////////////////
 
-INSERT INTO hotel_chain (address, email, num_of_hotels) VALUES
-('500 Park Ave, New York, NY', 'info@grandhotels.com', 12),
-('1200 Sunset Blvd, Los Angeles, CA', 'contact@skylinehotels.com', 10),
-('300 Ocean Dr, Miami Beach, FL', 'support@seasidehotels.com', 9),
-('800 Mountain Way, Denver, CO', 'hello@mountainlodges.com', 8),
-('950 Bayfront Rd, San Francisco, CA', 'reservations@sunsetresorts.com', 11);
+INSERT INTO hotel_chain (address, name, email, num_of_hotels) VALUES
+('500 Park Ave, New York, NY','Grand Hotels', 'info@grandhotels.com', 12),
+('1200 Sunset Blvd, Los Angeles, CA','Skyline Hotels', 'contact@skylinehotels.com', 10),
+('300 Ocean Dr, Miami Beach, FL','Seaside Hotels', 'support@seasidehotels.com', 9),
+('800 Mountain Way, Denver, CO','Mountain Lodges', 'hello@mountainlodges.com', 8),
+('950 Bayfront Rd, San Francisco, CA','Sunset Resorts', 'reservations@sunsetresorts.com', 11);
 
 INSERT INTO hotel (address, num_of_rooms, email, stars, chain_address) VALUES
 -- Grand Hotels (New York) - 12 Hotels

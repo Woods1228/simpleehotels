@@ -1,6 +1,12 @@
-com\simpleehotels\Bookings.class
+com\simpleehotels\Booking.class
+com\simpleehotels\Renting.class
+com\simpleehotels\CustomerService.class
+com\simpleehotels\Customer.class
 com\simpleehotels\RoomService.class
 com\simpleehotels\Room.class
-com\simpleehotels\Rentings.class
+com\simpleehotels\Hotel.class
 com\simpleehotels\ConnectionDB.class
+com\simpleehotels\Employee.class
+com\simpleehotels\EmployeeService.class
+com\simpleehotels\HotelService.class
 com\simpleehotels\Message.class

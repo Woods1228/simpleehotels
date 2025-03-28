@@ -19,17 +19,21 @@
     session.setAttribute("messages", new ArrayList<Message>());
 
     RoomService roomService = new RoomService();
+    HotelService hotelService = new HotelService();
+    //HotelChainService hotelChainService = new HotelChainService();
     ArrayList<Room> rooms = null;
     try {
         rooms = roomService.getRooms();
+        hotels = hotelService.getHotels();
+        //hotelChains = hotelChainService.getHotelChains();
     } catch (Exception e) {
         e.printStackTrace();
     }
 %>
+ 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -42,6 +46,42 @@
 
 <html>
 <body>
+    <div class="filter-container mb-3">
+        <label for="filter" class="mr-2">Capacity:</label>
+        <select id="capacityFilter"  onchange="filterRooms()">
+            <option value="">All</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="queen">Queen</option>
+            <option value="double queen">Double Queen</option>
+            <option value="suite">Suite</option>
+        </select>
+        <label for="filter" class="mr-2">Price:</label>
+        <select id="priceFilter" onchange="filterRooms()">
+            <option value="">All</option>
+            <option value="low">Below $100</option>
+            <option value="medium">Below $250</option>
+            <option value="high">Below $500</option>
+        </select>
+        <label for="filter" class="mr-2">Hotel Category:</label>
+        <select id="categoryFilter" onchange="filterRooms()">
+            <option value="">All</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Star</option>
+            <option value="3">3 Star</option>
+            <option value="4">4 Star</option>
+            <option value="5">5 Star</option>
+        </select>
+
+    </div>
+    These criteria should be: 
+    the dates (start, end) of booking or renting, 
+                    the room capacity, 
+    the area,
+    the hotel chain, 
+    the category of the hotel, 
+    the total number of rooms in the hotel, 
+                    the price of the rooms.
     <div id="editModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -167,6 +207,63 @@
 
                 document.getElementById("modal-form").action = "update-room-controller.jsp";
                 document.getElementById("modal-form").method = "POST";
+            }
+        </script>
+        <script>
+            function filterRooms() {
+                const capacityFilter = document.getElementById("capacityFilter").value;
+                const priceFilter = document.getElementById("priceFilter").value;
+                const categoryFilter = document.getElementById("categoryFilter").value;
+                const rows = document.querySelectorAll("tbody tr");
+
+                rows.forEach(row => {
+                    const price = parseFloat(row.querySelector("td:nth-child(3)").innerText.replace('$', ''));
+                    const capacity = row.querySelector("td:nth-child(5)").innerText;
+                    const roomAddress = row.querySelector("td:nth-child(2)");
+                    <% for (Hotel hotel : hotels) { %>
+                        if (roomAddress.innerText === "<%= hotel.getHotelAddress()%>") {
+                            const category = "<%= hotel.getHotelCategory() %>";
+                        }
+                    <% } %>
+
+
+                    // Show all rows by default
+                    row.style.display = "";
+
+                    // Apply filters
+                    // Capacity filter logic
+                    if (capacityFilter === "single" && capacity !== "single") {
+                        row.style.display = "none"; // Example: Hide rooms that don't match the selected capacity
+                    } else if ( capacityFilter === "double" && capacity !== "double") {
+                        row.style.display = "none"; 
+                    } else if (capacityFilter === "queen" && capacity !== "queen") {
+                        row.style.display = "none"; 
+                    } else if (capacityFilter === "double queen" && capacity !== "double queen") {
+                        row.style.display = "none"; 
+                    } else if (capacityFilter === "suite" && capacity !== "suite") {
+                        row.style.display = "none";
+                    }
+                    // Price filter logic
+                    if (priceFilter === "low" && price > 100) {
+                        row.style.display = "none"; // Example: Hide rooms with price > 100
+                    } else if (priceFilter === "medium" && price > 250) {
+                        row.style.display = "none"; 
+                    } else if (priceFilter === "high" && price > 500) {
+                        row.style.display = "none"; 
+                    }
+                    // Category filter logic
+                    if (categoryFilter === "1" && category !== "1") {
+                        row.style.display = "none"; // Example: Hide rooms that don't match the selected category
+                    } else if (categoryFilter === "2" && category !== "2") {
+                        row.style.display = "none"; 
+                    } else if (categoryFilter === "3" && category !== "3") {
+                        row.style.display = "none"; 
+                    } else if (categoryFilter === "4" && category !== "4") {
+                        row.style.display = "none"; 
+                    } else if (categoryFilter === "5" && category !== "5") {
+                        row.style.display = "none"; 
+                    }
+                });
             }
         </script>
 

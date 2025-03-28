@@ -15,7 +15,7 @@ Where (address, room_num)in(
 	From renting
 	Where current_date>= start_date and end_date>= current_date
 );
--Gets the rooms that are currently booked
+-Gets the rooms that are currently rented
 
 Select *
 From hotel
@@ -30,3 +30,15 @@ where chain_address in (
 	where num_of_hotels >=10
 );
 -Gets the hotels from the hotel chains with atleast 10 hotels
+
+Select *
+From rooms
+Where (address, room_num) in(
+	SELECT address, room_num
+	From renting
+	Where current_date>= start_date and end_date>= current_date
+) or (address, room_num) in(
+	SELECT address, room_num
+	From booking
+	Where current_date>= start_date and end_date>= current_date
+);

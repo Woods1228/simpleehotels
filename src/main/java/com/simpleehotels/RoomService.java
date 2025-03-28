@@ -17,9 +17,19 @@ public class RoomService {
      * @return List<Room>
      * @throws Exception
      */
-    public ArrayList<Room> getRooms() throws Exception {
+    public ArrayList<Room> getAvailableRooms() throws Exception {
         // SQL query to get all rooms
-        String query = "SELECT * FROM rooms";
+        String query = "SELECT * " +
+                  "FROM rooms " +
+                  "WHERE (address, room_num) NOT IN ( " +
+                  "    SELECT address, room_num " +
+                  "    FROM renting " +
+                  "    WHERE current_date >= start_date AND end_date >= current_date " +
+                  ") AND (address, room_num) NOT IN ( " +
+                  "    SELECT address, room_num " +
+                  "    FROM booking " +
+                  "    WHERE current_date >= start_date AND end_date >= current_date " +
+                  ");";
         ConnectionDB db = new ConnectionDB();
         
         // List to store rooms
@@ -56,9 +66,63 @@ public class RoomService {
         }
     }
 
-    public boolean bookRoom(Room room, String ssn) throws Exception{
+    public ArrayList<Room> getRoomsFiltered(Date start, Date end, String capacity, String area, String chainName, int stars, int numofRooms, float price ) throws Exception {
+        // SQL query to get all rooms
+        String query = "SELECT * " +
+                  "FROM rooms " +
+                  "WHERE (address, room_num) NOT IN ( " +
+                  "    SELECT address, room_num " +
+                  "    FROM renting " +
+                  "    WHERE current_date >= "+start +"AND "+ end  +">= current_date " +
+                  ") AND (address, room_num) NOT IN ( " +
+                  "    SELECT address, room_num " +
+                  "    FROM booking " +
+                  "    WHERE current_date >= "+start +"AND "+ end  +">= current_date " + 
+                  ") AND capacity ILIKE '" + capacity + "' " +
+                    "AND address ILIKE '" + area + "' " +
+                  "IN( SELECT address as chain_address FROM hotel_chain WHERE name ILIKE '" + chainName + "') " +
+                  "AND stars <= " + stars + ") " +
+                    "AND room_num <= " + numofRooms + ") " +
+                    "AND price <= " + price + ";";
+        ConnectionDB db = new ConnectionDB();
+        
+        // List to store rooms
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        // Get rooms from the database
+        try (Connection con = db.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            // Add rooms to the list
+            while (rs.next()) {
+                Room room = new Room(
+                    rs.getInt("room_num"),
+                    rs.getString("address"),
+                    rs.getFloat("price"),
+                    rs.getString("amenities"),
+                    rs.getString("capacity"),
+                    rs.getString("view_type"),
+                    rs.getString("damages"),
+                    rs.getBoolean("extendible")
+                );
+                rooms.add(room);
+            }
+            // Close the connection
+            rs.close();
+            stmt.close();
+            db.closeConnection();
+            // Return the list of rooms
+            return rooms;
+
+        // Handle exceptions
+        } catch (Exception e) {
+            throw new Exception("Could not get rooms: " + e.getMessage());
+        }
+    }
+
+    public boolean bookRoom(Room room, String ssn, Date startDate, Date endDate) throws Exception{
         String query1 = "INSERT INTO booking (booking_id, start_date, end_date, price, customer_ssn, room_num, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        //String query2 = "SELECT max(booking_id) FROM booking;";
+        String query2 = "SELECT MAX(CAST(SUBSTRING(booking_id, 2, 10) AS INTEGER)) AS max_booking_number FROM archive;";
         String query3 = "SELECT * FROM customer WHERE customer.ssn=\'" + ssn + "\';";
         System.out.println(query3);
         ConnectionDB db = new ConnectionDB();
@@ -67,11 +131,11 @@ public class RoomService {
         try (Connection con = db.getConnection()) {
             System.out.println("2");
             PreparedStatement stmt1 = con.prepareStatement(query1);
-            //PreparedStatement stmt2 = con.prepareStatement(query2);
+            PreparedStatement stmt2 = con.prepareStatement(query2);
             PreparedStatement stmt3 = con.prepareStatement(query3);
             System.out.println("2.1");
     
-            //ResultSet rs2 = stmt2.executeQuery();
+            ResultSet rs2 = stmt2.executeQuery();
             System.out.println("2.2");
             ResultSet rs3 = stmt3.executeQuery();
             System.out.println("2.3");
@@ -81,7 +145,7 @@ public class RoomService {
             }
 
             System.out.println("3");
-            stmt1.setString(1, /*rs2.getInt(1) + */"b" + 123456789); /////////////////////////////////////////////////////////// DUMMY BOOKING ID
+            stmt1.setString(1, "b" + (rs2.getInt(1) + 1));
             System.out.println("3.1");
             stmt1.setDate(2, getDate(false));
             System.out.println("3.2");
@@ -121,6 +185,8 @@ public class RoomService {
             return false;
         }
     }
+
+    
 
     public Date getDate(boolean end) {
         // Get the current date
