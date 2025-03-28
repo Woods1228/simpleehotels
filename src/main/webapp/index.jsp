@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container">
-        <button class="guest" onclick="window.location.href='login.jsp'">Guest</button>
+        <button class="guest" onclick="window.location.href='room.jsp'">Guest</button>
         <button class="employee">Employee</button>
     </div>
 </body>
