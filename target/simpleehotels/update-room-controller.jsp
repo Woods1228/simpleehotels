@@ -41,5 +41,5 @@
     // set session attribute named messages to messages value
     session.setAttribute("messages", messages);
     // redirect to students page
-    response.sendRedirect("index.jsp");
+    response.sendRedirect("room.jsp");
 %>
