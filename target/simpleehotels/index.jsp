@@ -54,14 +54,22 @@
                 <div class="modal-body">
                     <form id="modal-form">
                         <div style="text-align: center;">
-                            <p id="roomNumber">Room Number: </p>
-                            <p id="address">Address: </p>
-                            <p id="price">Price: </p>
-                            <p id="ammenities">Ammenities: </p>
-                            <p id="capacity">Capacity: </p>
-                            <p id="viewType">View Type: </p>
-                            <p id="damages">Damages: </p>
-                            <p id="extendible">Extendible: </p>
+                            <input type="hidden" name="roomNumber" id="roomNumber">
+                            <input type="hidden" name="address" id="address">
+                            <input type="hidden" name="price" id="price">
+                            <input type="hidden" name="amenities" id="amenities">
+                            <input type="hidden" name="capacity" id="capacity">
+                            <input type="hidden" name="viewType" id="viewType">
+                            <input type="hidden" name="damages" id="damages">
+                            <input type="hidden" name="extendible" id="extendible">
+                            <p id="roomNumberText">Room Number: </p>
+                            <p id="addressText">Address: </p>
+                            <p id="priceText">Price: </p>
+                            <p id="amenitiesText">Amenities: </p>
+                            <p id="capacityText">Capacity: </p>
+                            <p id="viewTypeText">View Type: </p>
+                            <p id="damagesText">Damages: </p>
+                            <p id="extendibleText">Extendible: </p>
                             <input type="text" name="ssn" id="ssn">
                         </div>
                     </form>
@@ -92,7 +100,7 @@
                                         <th>Room Number</th>
                                         <th>Address</th>
                                         <th>Price</th>
-                                        <th>Ammenities</th>
+                                        <th>Amenities</th>
                                         <th>Capacity</th>
                                         <th>View Type</th>
                                         <th>Damages</th>
@@ -106,7 +114,7 @@
                                         <td><%= room.getRoomNumber() %></td>
                                         <td><%= room.getRoomAddress() %></td>
                                         <td><%= room.getRoomPrice() %></td>
-                                        <td><%= room.getRoomAmmenities() %></td>
+                                        <td><%= room.getRoomAmenities() %></td>
                                         <td><%= room.getRoomCapacity() %></td>
                                         <td><%= room.getRoomViewType() %></td>
                                         <td><%= room.getRoomDamages() %></td>
@@ -117,7 +125,7 @@
                                                 data-roomnumber="<%= room.getRoomNumber() %>"
                                                 data-address="<%= room.getRoomAddress() %>" 
                                                 data-price="<%= room.getRoomPrice() %>"
-                                                data-ammenities="<%= room.getRoomAmmenities() %>"
+                                                data-ammenities="<%= room.getRoomAmenities() %>"
                                                 data-capacity="<%= room.getRoomCapacity() %>"
                                                 data-viewtype="<%= room.getRoomViewType() %>"
                                                 data-damages="<%= room.getRoomDamages() %>"
@@ -139,16 +147,26 @@
     </div>
     <script>
         function setModalFields(row) {
-            document.getElementById("roomNumber").innerText = "Room Number: " + row.dataset.roomnumber;
-            document.getElementById("address").innerText = "Address: " + row.dataset.address;
-            document.getElementById("price").innerText = "Price: " + row.dataset.price;
-            document.getElementById("ammenities").innerText = "Ammenities: " + row.dataset.ammenities;
-            document.getElementById("capacity").innerText = "Capacity: " + row.dataset.capacity;
-            document.getElementById("viewType").innerText = "View Type: " + row.dataset.viewtype;
-            document.getElementById("damages").innerText = "Damages: " + row.dataset.damages;
-            document.getElementById("extendible").innerText = "Extendible: " + row.dataset.extendible;
+            document.getElementById("roomNumberText").innerText = "Room Number: " + row.dataset.roomnumber;
+            document.getElementById("addressText").innerText = "Address: " + row.dataset.address;
+            document.getElementById("priceText").innerText = "Price: " + row.dataset.price;
+            document.getElementById("amenitiesText").innerText = "Amenities: " + row.dataset.amenities;
+            document.getElementById("capacityText").innerText = "Capacity: " + row.dataset.capacity;
+            document.getElementById("viewTypeText").innerText = "View Type: " + row.dataset.viewtype;
+            document.getElementById("damagesText").innerText = "Damages: " + row.dataset.damages;
+            document.getElementById("extendibleText").innerText = "Extendible: " + row.dataset.extendible;
 
-            document.getElementById("modal-form").action = "update-student-controller.jsp";
+            // Update the hidden input fields in the form
+            document.getElementById("roomNumber").value = row.dataset.roomnumber;
+            document.getElementById("address").value = row.dataset.address;
+            document.getElementById("price").value = row.dataset.price;
+            document.getElementById("amenities").value = row.dataset.amenities;
+            document.getElementById("capacity").value = row.dataset.capacity;
+            document.getElementById("viewType").value = row.dataset.viewtype;
+            document.getElementById("damages").value = row.dataset.damages;
+            document.getElementById("extendible").value = row.dataset.extendible;
+
+            document.getElementById("modal-form").action = "update-room-controller.jsp";
             document.getElementById("modal-form").method = "POST";
         }
     </script>

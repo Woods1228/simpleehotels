@@ -22,7 +22,7 @@ hotels = [row[0] for row in cursor.fetchall()]
 capacities = ['single', 'double', 'queen', 'double queen', 'suite']
 view_types = ['sea', 'mountain']
 amenities_list = ['WiFi', 'TV', 'Mini-bar', 'Air Conditioning', 'Balcony', 'Safe']
-damage_options = [None, "Scratch on wall", "Broken lamp", "Water stain on ceiling"]
+damage_options = ["None", "Scratch on wall", "Broken lamp", "Water stain on ceiling"]
 
 # Generate and insert rooms for each hotel
 for hotel in hotels:

@@ -56,20 +56,32 @@ public class RoomService {
         }
     }
 
-    public boolean bookRoom(Room room, int ssn) throws Exception{
+    public boolean bookRoom(Room room, String ssn) throws Exception{
         String query1 = "INSERT INTO booking (booking_id, start_date, end_date, price, customer_ssn, room_num, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        String query2 = "SELECT max(booking_id) FROM booking;";
+        //String query2 = "SELECT max(booking_id) FROM booking;";
+        String query3 = "SELECT * FROM customer WHERE customer.ssn=\'" + ssn + "\';";
+        System.out.println(query3);
         ConnectionDB db = new ConnectionDB();
         System.out.println(room.toString());
 
         try (Connection con = db.getConnection()) {
             System.out.println("2");
             PreparedStatement stmt1 = con.prepareStatement(query1);
-            PreparedStatement stmt2 = con.prepareStatement(query2);
-            ResultSet rs2 = stmt2.executeQuery();
+            //PreparedStatement stmt2 = con.prepareStatement(query2);
+            PreparedStatement stmt3 = con.prepareStatement(query3);
+            System.out.println("2.1");
+    
+            //ResultSet rs2 = stmt2.executeQuery();
+            System.out.println("2.2");
+            ResultSet rs3 = stmt3.executeQuery();
+            System.out.println("2.3");
+            if (!rs3.next()){
+                System.out.println("2.4");
+                return false;
+            }
 
             System.out.println("3");
-            stmt1.setInt(1, /*rs2.getInt(1) + */1);
+            stmt1.setString(1, /*rs2.getInt(1) + */"b" + 123456789); /////////////////////////////////////////////////////////// DUMMY BOOKING ID
             System.out.println("3.1");
             stmt1.setDate(2, getDate(false));
             System.out.println("3.2");
@@ -77,7 +89,7 @@ public class RoomService {
             System.out.println("3.3");
             stmt1.setFloat(4, room.getRoomPrice());
             System.out.println("3.4");
-            stmt1.setInt(5, ssn);                                         ///////////////////////////////////////////////// DUMMY DATES AND SSN
+            stmt1.setString(5, ssn);                                         ///////////////////////////////////////////////// DUMMY DATES AND SSN
             System.out.println("3.5");
             stmt1.setInt(6, room.getRoomNumber());
             System.out.println("3.6");
@@ -88,16 +100,20 @@ public class RoomService {
             System.out.println("5");
             if (rs1 == 1){
                 System.out.println("6");
-                rs2.close();
+                //rs2.close();
+                rs3.close();
                 stmt1.close();
-                stmt2.close();
+                //stmt2.close();
+                stmt3.close();
                 db.closeConnection();
                 return true;
             } else {
                 System.out.println("7");
-                rs2.close();
+                //rs2.close();
+                rs3.close();
                 stmt1.close();
-                stmt2.close();
+                //stmt2.close();
+                stmt3.close();
                 db.closeConnection();
                 return false;
             }
@@ -113,6 +129,8 @@ public class RoomService {
         // Add one week to the current date
         if (end){
             currentDate = currentDate.plusWeeks(1);
+        } else {
+            currentDate = currentDate.plusDays(1);
         }
 
         // Format the date as "year-month-day"

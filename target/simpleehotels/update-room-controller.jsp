@@ -9,26 +9,26 @@
     // get student info from the request
     Integer roomNumber = Integer.valueOf(request.getParameter("roomNumber"));
     String address = request.getParameter("address");
-    Double price = Double.valueOf(request.getParameter("price"));
-    String ammenities = request.getParameter("ammenities");
-    Integer capacity = Integer.valueOf(request.getParameter("capacity"));
+    Float price = Float.valueOf(request.getParameter("price"));
+    String amenities = request.getParameter("amenities");
+    String capacity = request.getParameter("capacity");
     String viewType = request.getParameter("viewType");
     String damages = request.getParameter("damages");
     Boolean extendible = Boolean.valueOf(request.getParameter("extendible"));
-    Integer ssn = Integer.valueOf(request.getParameter("ssn"));
-    
+    String ssn = request.getParameter("ssn");
+
     RoomService roomService = new RoomService();
     // create room object
-    Room room = new Room(roomNumber, address, price, ammenities, capacity, viewType, damages, extendible);  
+    Room room = new Room(roomNumber, address, price, amenities, capacity, viewType, damages, extendible);  
 
     Message msg;
     // try to update a student
     try {
-        String value = roomService.bookRoom(room, ssn);
-        // if the value contains error/Error then this is an error message
-        if (value) msg = new Message("success", value);
-        // else the student was successfully created
-        else msg = new Message("error", value);
+        boolean value = roomService.bookRoom(room, ssn);
+        // 
+        if (value) msg = new Message("success", "Room successfully booked!");
+        // 
+        else msg = new Message("error", "Room could not be booked!");
     } catch (Exception e) {
         e.printStackTrace();
         msg = new Message("error", "Something went wrong!");
@@ -41,5 +41,5 @@
     // set session attribute named messages to messages value
     session.setAttribute("messages", messages);
     // redirect to students page
-    response.sendRedirect("students.jsp");
+    response.sendRedirect("index.jsp");
 %>

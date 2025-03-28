@@ -4,17 +4,17 @@ public class Room {
     private final int roomNumber;
     private final String address;
     private float price;
-    private String ammenities;
+    private String amenities;
     private String capacity;
     private final String viewType;
     private String damages;
     private final boolean extendible;
 
-    public Room(int roomNumber, String address, float price, String ammenities, String capacity, String viewType, String damages, boolean extendible) {
+    public Room(int roomNumber, String address, float price, String amenities, String capacity, String viewType, String damages, boolean extendible) {
         this.roomNumber = roomNumber;
         this.address = address;
         this.price = price;
-        this.ammenities = ammenities;
+        this.amenities = amenities;
         this.capacity = capacity;
         this.viewType = viewType;
         this.damages = damages;
@@ -42,11 +42,11 @@ public class Room {
     }
 
     // Get ammenities and set ammenities
-    public String getRoomAmmenities() {
-        return ammenities;
+    public String getRoomAmenities() {
+        return amenities;
     }
-    public void setRoomAmmenities(String ammenities) {
-        this.ammenities = ammenities;
+    public void setRoomAmenities(String ammenities) {
+        this.amenities = ammenities;
     }
 
     // Get capacity and set capacity
@@ -81,7 +81,7 @@ public class Room {
                 "roomNumber=" + roomNumber +
                 ", address='" + address + '\'' +
                 ", price=" + price +
-                ", ammenities='" + ammenities + '\'' +
+                ", amenities='" + amenities + '\'' +
                 ", capacity='" + capacity + '\'' +
                 ", viewType='" + viewType + '\'' +
                 ", damages='" + damages + '\'' +
