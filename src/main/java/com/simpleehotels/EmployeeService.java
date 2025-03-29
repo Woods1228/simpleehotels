@@ -49,7 +49,7 @@ public class EmployeeService {
 
         // Handle exceptions
         } catch (Exception e) {
-            throw new Exception("Could not get rooms: " + e.getMessage());
+            throw new Exception("Could not get employees: " + e.getMessage());
         }
     }
 

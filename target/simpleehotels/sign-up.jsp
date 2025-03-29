@@ -54,6 +54,7 @@
     <div class="signup-container">
         <h2>Sign Up</h2>
         <form>
+            <input type="text" placeholder="Name" required>
             <input type="text" placeholder="Social Security Number" required>
             <input type="text" placeholder="Address" required>
             <button type="submit" class="signup-btn">Sign Up</button>

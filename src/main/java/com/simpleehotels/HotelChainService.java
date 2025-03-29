@@ -8,19 +8,19 @@ import java.util.ArrayList;
 /*
  * This class is used to get rooms from the database.
  */
-public class HotelService {
+public class HotelChainService {
     /*
      * This method is used to get all rooms from the database.
      * @return List<Room>
      * @throws Exception
      */
-    public ArrayList<Hotel> getHotels() throws Exception {
+    public ArrayList<HotelChain> getHotelChains() throws Exception {
         // SQL query to get all rooms
-        String query = "SELECT * FROM hotel;";
+        String query = "SELECT name FROM hotel_chain;";
         ConnectionDB db = new ConnectionDB();
         
         // List to store rooms
-        ArrayList<Hotel> hotels = new ArrayList<>();
+        ArrayList<HotelChain> hotelChains = new ArrayList<>();
 
         // Get rooms from the database
         try (Connection con = db.getConnection()) {
@@ -28,25 +28,24 @@ public class HotelService {
             ResultSet rs = stmt.executeQuery();
             // Add rooms to the list
             while (rs.next()) {
-                Hotel hotel = new Hotel(
+                HotelChain hotelChain = new HotelChain(
                     rs.getString("address"),
-                    rs.getInt("num_of_rooms"),
+                    rs.getString("name"),
                     rs.getString("email"),
-                    rs.getInt("stars"),
-                    rs.getString("chain_address")
+                    rs.getString("num_of_hotels")
                 );
-                hotels.add(hotel);
+                hotelChains.add(hotelChain);
             }
             // Close the connection
             rs.close();
             stmt.close();
             db.closeConnection();
             // Return the list of rooms
-            return hotels;
+            return hotelChains;
 
         // Handle exceptions
         } catch (Exception e) {
-            throw new Exception("Could not get Hotels: " + e.getMessage());
+            throw new Exception("Could not get the hotel chain names: " + e.getMessage());
         }
     }  
 }

@@ -63,13 +63,13 @@
 
   <div class="grid-container">
     <div class="card">
-      <h3>Update Customer Info</h3>
+      <h3>Customer Info</h3>
       <p>Modify customer records in the database</p>
-      <button class="btn" onclick="handleClick('customer')">Open</button>
+      <button class="btn" onclick="window.location.href='createCustomer.jsp'">Open</button>
     </div>
     
     <div class="card">
-      <h3>Update Employee Info</h3>
+      <h3>Employee Info</h3>
       <p>Modify employee records in the database</p>
       <button class="btn" onclick="handleClick('employee')">Open</button>
     </div>
