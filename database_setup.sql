@@ -143,13 +143,13 @@ $BODY$
 BEGIN
     IF TG_OP = 'INSERT' OR (TG_OP = 'UPDATE' AND NEW.email <> OLD.email) THEN
         IF EXISTS (
-            SELECT address FROM hotel WHERE address = NEW.email
+            SELECT email FROM hotel WHERE email = NEW.email
         )
         OR EXISTS (
-            SELECT address FROM hotel_chain WHERE address = NEW.email
+            SELECT email FROM hotel_chain Where email  = NEW.email
         )
         THEN
-            RAISE EXCEPTION 'Address must be unique across all tables';
+            RAISE EXCEPTION 'Email must be unique across all tables';
         END IF;
     END IF;
 

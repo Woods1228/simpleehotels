@@ -23,7 +23,7 @@ This index improves queries that filter/join based on room number and address. B
 CREATE INDEX index_customer_ssn ON customer(ssn);
 
 SSN is the primary way to find customers in bookings and rentings
-The index is useful for joining customers with booking, renting or payment
+The index is useful for joining customers with booking, renting
 help with quickly finding customers to validate when booking and renting
 also for locating customers when checking history and performing updates and deletes
 
@@ -31,7 +31,7 @@ also for locating customers when checking history and performing updates and del
 
 CREATE INDEX index_booking_dates ON booking(start_date, end_date);
 
-increases search time to find which rooms are free --> avoids scanning full table
+decreases search time to find which rooms are free --> avoids scanning full table
 Commonly used to find room availability within the certain date range
 
 
